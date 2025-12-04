@@ -1,0 +1,102 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation"; 
+import Link from "next/link";
+import { authService } from "@/lib/services/authService"; 
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+
+export default function RegisterPage() {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      await authService.register(formData);
+      router.push("/");
+    } catch (err) { 
+      console.error(err);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Щось пішло не так");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-6">
+      <div className="text-center">
+        <h1 className="text-2xl font-bold text-gray-900">Створити акаунт</h1>
+        <p className="text-gray-500 text-sm mt-2">Почніть бронювати кімнати вже зараз</p>
+      </div>
+
+      {error && (
+        <div className="bg-red-50 text-red-600 text-sm p-3 rounded-md">
+          {error}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <Input
+          label="Повне ім'я"
+          name="name"
+          placeholder="Олег Оприск"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
+        
+        <Input
+          label="Email"
+          type="email"
+          name="email"
+          placeholder="oleg@example.com"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+
+        <Input
+          label="Пароль"
+          type="password"
+          name="password"
+          placeholder="••••••••"
+          value={formData.password}
+          onChange={handleChange}
+          required
+          minLength={6}
+        />
+
+        <Button type="submit" isLoading={loading} className="mt-2">
+          Зареєструватися
+        </Button>
+      </form>
+
+      <div className="text-center text-sm text-gray-500">
+        Вже маєте акаунт?{" "}
+        <Link href="/login" className="text-blue-600 hover:underline font-medium">
+          Увійти
+        </Link>
+      </div>
+    </div>
+  );
+}
