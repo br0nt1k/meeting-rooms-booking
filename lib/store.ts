@@ -5,18 +5,18 @@ interface UserState {
     uid: string;
     email: string | null;
     displayName: string | null;
-  } | null; 
+    role?: 'admin' | 'user'; 
+  } | null;
   
-  isLoading: boolean; 
-
+  isLoading: boolean;
   setUser: (user: UserState['user']) => void;
   clearUser: () => void;
   setLoading: (isLoading: boolean) => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
-  user: null, 
-  isLoading: true, 
+  user: null,
+  isLoading: true,
   setUser: (user) => set({ user, isLoading: false }),
   clearUser: () => set({ user: null, isLoading: false }),
   setLoading: (isLoading) => set({ isLoading }),

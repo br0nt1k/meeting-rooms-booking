@@ -56,46 +56,15 @@ export default function RegisterPage() {
       )}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <Input
-          label="Повне ім'я"
-          name="name"
-          placeholder="Олег Оприск"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-        
-        <Input
-          label="Email"
-          type="email"
-          name="email"
-          placeholder="oleg@example.com"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+        <Input  label="Повне ім'я"  name="name" placeholder="Олег Оприск" value={formData.name} onChange={handleChange} required />
+        <Input  label="Email" type="email"  name="email"  placeholder="oleg@example.com"  value={formData.email}  onChange={handleChange} required/>
+        <Input  label="Пароль"  type="password" name="password" placeholder="••••••••"  value={formData.password} onChange={handleChange} required  minLength={6}/>
 
-        <Input
-          label="Пароль"
-          type="password"
-          name="password"
-          placeholder="••••••••"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          minLength={6}
-        />
-
-        <Button type="submit" isLoading={loading} className="mt-2">
-          Зареєструватися
-        </Button>
+        <Button type="submit" isLoading={loading} className="mt-2"> Зареєструватися</Button>
       </form>
 
-      <div className="text-center text-sm text-gray-500">
-        Вже маєте акаунт?{" "}
-        <Link href="/login" className="text-blue-600 hover:underline font-medium">
-          Увійти
-        </Link>
+      <div className="text-center text-sm text-gray-500">Вже маєте акаунт?{" "}
+        <Link href="/login" className="text-blue-600 hover:underline font-medium">  Увійти </Link>
       </div>
     </div>
   );

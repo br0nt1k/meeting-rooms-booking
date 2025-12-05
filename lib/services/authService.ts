@@ -4,7 +4,7 @@ import {
   signOut, 
   updateProfile 
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 
 interface RegisterData {
@@ -39,6 +39,7 @@ export const authService = {
       throw error;
     }
   },
+
   login: async ({ email, password }: LoginData) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -47,6 +48,7 @@ export const authService = {
       throw error;
     }
   },
+
   logout: async () => {
     try {
       await signOut(auth);
@@ -54,4 +56,20 @@ export const authService = {
       throw error;
     }
   },
+
+  getUserByEmail: async (email: string): Promise<string | null> => {
+    try {
+      const usersRef = collection(db, "users");
+      const q = query(usersRef, where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        return null;
+      }
+      return querySnapshot.docs[0].id;
+    } catch (error) {
+      console.error("Error finding user:", error);
+      return null;
+    }
+  }
 };

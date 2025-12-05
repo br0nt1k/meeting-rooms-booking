@@ -6,24 +6,21 @@ export interface UserProfile {
 }
 
 export interface Room {
-  id: string; 
+  id: string;
   name: string;
   description: string;
-  capacity: number; 
-  amenities?: string[]; 
+  capacity: number;
+  amenities?: string[];
 }
 
 export interface Booking {
   id: string;
   roomId: string;
-  roomName: string;  
-  userId: string;   
+  roomName: string;
+  userId: string;
   userName: string;
-  title: string;   
-  startTime: Date;  
-  endTime: Date;    
-  participants: {
-    email: string;
-    role: 'admin' | 'guest'; 
-  }[];
+  title: string;
+  startTime: Date;
+  endTime: Date;
+  participants: string[]; 
 }
