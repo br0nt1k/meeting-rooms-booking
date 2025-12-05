@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/Button";
 import { Spinner } from "@/components/ui/Spinner";
 import { toast } from "@/lib/toast"; 
 
+export const dynamic = 'force-dynamic';
+
 export default function NewRoomPage() {
   const router = useRouter();
   const { user, isLoading: isAuthLoading } = useUserStore();
